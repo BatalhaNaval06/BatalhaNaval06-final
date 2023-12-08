@@ -1,0 +1,199 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+  public static void main(String[] args) {
+
+    int[][] tabuleiro = new int[10][10];
+    Scanner input = new Scanner(System.in);
+    int[] linha1 = new int[3];
+    int[] coluna1 = new int[3];
+    int[] coluna2 = new int[3];
+    int[] coluna3 = new int[3];
+    int[] linha2 = new int[3];
+    int[] linha3 = new int[3];
+    int barco1 = 0;
+    int barco2 = 0;
+    int barco3 = 0;
+    int[] ladoBarco = new int[3];
+//////// COLOCAR OS BARCOS NO TABULEIRO////////
+    for (int k = 0; k < 3; k++) {
+
+      double doubleRandomNumber3 = Math.random() * 2;
+      int randomNumber3 = (int) doubleRandomNumber3;
+      ladoBarco[k] = randomNumber3;
+
+  ///////// BARCO HORIZONTAL/////////
+      if (ladoBarco[k] == 1) {
+
+        double doubleRandomNumber = Math.random() * 10;
+        int randomNumber = (int) doubleRandomNumber;
+        linha1[k] = randomNumber;
+        linha2[k] = randomNumber;
+        linha3[k] = randomNumber;
+        double doubleRandomNumber2 = Math.random() * 8;
+        int randomNumber2 = (int) doubleRandomNumber2;
+        coluna1[k] = randomNumber2;
+        coluna2[k] = randomNumber2 + 1;
+        coluna3[k] = randomNumber2 + 2;
+
+        if (tabuleiro[linha1[k]][coluna1[k]] != 1 && tabuleiro[linha2[k]][coluna2[k]] != 1
+            && tabuleiro[linha3[k]][coluna3[k]] != 1) {
+          tabuleiro[linha1[k]][coluna1[k]] = 1;
+          tabuleiro[linha2[k]][coluna2[k]] = 1;
+          tabuleiro[linha3[k]][coluna3[k]] = 1;
+        } else {k--;}
+      }
+///////// BARCO HORIZONTAL/////////
+      else {
+///////// BARCO VERTICAL/////////
+        double doubleRandomNumber4 = Math.random() * 8;
+        int randomNumber4 = (int) doubleRandomNumber4;
+        linha1[k] = randomNumber4;
+        linha2[k] = randomNumber4 + 1;
+        linha3[k] = randomNumber4 + 2;
+        double doubleRandomNumber5 = Math.random() * 10;
+        int randomNumber5 = (int) doubleRandomNumber5;
+        coluna1[k] = randomNumber5;
+        coluna2[k] = randomNumber5;
+        coluna3[k] = randomNumber5;
+
+        if (tabuleiro[linha1[k]][coluna1[k]] != 1 && tabuleiro[linha2[k]][coluna2[k]] != 1
+            && tabuleiro[linha3[k]][coluna3[k]] != 1) {
+          tabuleiro[linha1[k]][coluna1[k]] = 1;
+          tabuleiro[linha2[k]][coluna2[k]] = 1;
+          tabuleiro[linha3[k]][coluna3[k]] = 1;
+        } else {k--;}
+      }
+///////// BARCO VERTICAL/////////
+    }
+//////// COLOCAR O MAR NO TABULEIRO////////
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (tabuleiro[i][j] != 1) {
+          tabuleiro[i][j] = 0;
+        }
+      }
+    }
+//////// LOOP PRINTAR TABULEIRO/////////
+    int fim = 0;
+    while (true) {
+//////// IDENTIFICAÇÃO DE BARCOS////////
+
+      barco1 = tabuleiro[linha1[0]][coluna1[0]] + tabuleiro[linha2[0]][coluna2[0]]
+          + tabuleiro[linha3[0]][coluna3[0]];
+
+      barco2 = tabuleiro[linha1[1]][coluna1[1]] + tabuleiro[linha2[1]][coluna2[1]]
+          + tabuleiro[linha3[1]][coluna3[1]];
+
+      barco3 = tabuleiro[linha1[2]][coluna1[2]] + tabuleiro[linha2[2]][coluna2[2]]
+          + tabuleiro[linha3[2]][coluna3[2]];
+
+      fim = barco1 + barco2 + barco3;
+
+//////// PRINTAR LETRAS E NUMEROS TABULEIRO////////
+     
+
+      String[] linhasLetra = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", };
+      System.out.println("\t 1 \t 2 \t 3 \t 4 \t 5 \t 6 \t 7 \t 8 \t 9 \t 10");
+
+      for (int linhas = 0; linhas < 10; linhas++) {
+        System.out.print("\n" + linhasLetra[linhas]);
+        //////// PRINTAR TABULEIRO////////
+        for (int colunas = 0; colunas < 10; colunas++) {
+          if (tabuleiro[linhas][colunas] == -1) {
+            System.out.print("\t ~");
+          } 
+          
+          else if (tabuleiro[linhas][colunas] == 0) {
+            System.out.print("\t *");
+          } 
+          
+          else if (tabuleiro[linhas][colunas] == 1) {
+            System.out.print("\t O"); 
+          } 
+          
+          else if (tabuleiro[linhas][colunas] == 2) {
+            System.out.print("\t X");
+          }
+        }
+        System.out.println();
+      }
+
+      int jogadaLinha;
+      int jogadaColuna;
+
+      System.out.println();
+
+      if (fim == 18) {break;}
+      
+//////// JOGADAS////////
+      int invalido = 0;
+      
+      System.out.print("Faça a sua jogada. Primeiramente, escolha uma linha: ");
+      jogadaLinha = input.nextInt();
+      if (jogadaLinha > 10) {
+        jogadaLinha = 10;
+        invalido++;
+      }
+      else if (jogadaLinha < 0) {
+        jogadaLinha = 1;
+        invalido++;
+      }
+      jogadaLinha--;
+      
+      System.out.print("Agora escolha uma coluna: ");
+      jogadaColuna = input.nextInt();
+      if (jogadaColuna > 10) {
+        jogadaColuna = 10;
+        invalido++;
+      }
+      else if (jogadaColuna < 0) {
+        jogadaColuna = 1;
+        invalido++;
+      }
+      jogadaColuna--;
+      
+////////LOCAL NÃO ATINGIDO////////
+      
+        if (tabuleiro[jogadaLinha][jogadaColuna] == 0 || tabuleiro[jogadaLinha][jogadaColuna] == -1) {
+        tabuleiro[jogadaLinha][jogadaColuna]--;
+      } 
+        
+        if (tabuleiro[jogadaLinha][jogadaColuna] == 1 || tabuleiro[jogadaLinha][jogadaColuna] == 2) {
+        tabuleiro[jogadaLinha][jogadaColuna]++;
+      }
+
+      System.out.println("--------------------------------------");
+      System.out.println("LEGENDA:");
+////////LOCAL JÁ ATINGIDO////////
+
+        if (tabuleiro[jogadaLinha][jogadaColuna] == -2) {
+          System.out.println("Você já atirou neste local.");
+          tabuleiro[jogadaLinha][jogadaColuna]++;
+        }
+
+        if (tabuleiro[jogadaLinha][jogadaColuna] == 3) {
+          System.out.println("Você já atirou neste local.");
+          tabuleiro[jogadaLinha][jogadaColuna]--;
+      }
+      
+//////// PRINTAR BARCOS DESTRUÍDOS(SE DISPONÍVEL)////////
+      
+      if (barco1 == 6) {
+        System.out.println("Barco 'ALPHA' destruído!");
+      }
+      if (barco2 == 6) {
+        System.out.println("Barco 'BETA' destruído!");
+      }
+      if (barco3 == 6) {
+        System.out.println("Barco 'GAMMA' destruído!");
+      }
+////////VALOR INDISPONIVEL////////
+      if (invalido != 0) {
+        System.out.println("Jogada inválida. O valor foi arredondado.");
+      }
+    }
+    System.out.println("Fim de jogo.");
+  }
+}
